@@ -9,6 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 const DynamicNewsPage = async ({ searchParams }) => {
@@ -27,35 +28,49 @@ const DynamicNewsPage = async ({ searchParams }) => {
       >
         {data.map((news) => (
           <Grid key={news.id} item xs={6}>
-            <Card sx={{}}>
-              <CardMedia>
-                <Image
-                  src={news.thumbnail_url}
-                  width={800}
-                  height={100}
-                  alt="top news"
-                />
-              </CardMedia>
+            <Link href={`/${news.category}/${news._id}`}>
+              <Card sx={{}}>
+                <CardMedia
+                  sx={{
+                    "& img": {
+                      width: "100%",
+                      height: "250px",
+                    },
+                  }}
+                >
+                  <Image
+                    src={news.thumbnail_url}
+                    width={800}
+                    height={100}
+                    alt="top news"
+                  />
+                </CardMedia>
 
-              <CardContent>
-                <p className="w-fit bg-red-600 p-2 text-white rounded-lg my-3">
-                  {news.category}
-                </p>
-                <Typography gutterBottom variant="h5" component="div">
-                  {news.title}
-                </Typography>
-                <Typography gutterBottom>
-                  By {news.author.name}- {news.author.published_date}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {news.details}
-                </Typography>
-              </CardContent>
-              <CardActions>
-                <Button size="small">Share</Button>
-                <Button size="small">Learn More</Button>
-              </CardActions>
-            </Card>
+                <CardContent>
+                  <p className="w-fit bg-red-600 p-2 text-white rounded-lg my-3">
+                    {news.category}
+                  </p>
+                  <Typography gutterBottom variant="h6" component="div">
+                    {}
+                    {news.title.length > 30
+                      ? news.title.slice(0, 30) + "..."
+                      : news.title}
+                  </Typography>
+                  <Typography gutterBottom>
+                    By {news.author.name}- {news.author.published_date}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {news.details.length > 200
+                      ? news.details.slice(0, 200) + "..."
+                      : news.details}
+                  </Typography>
+                </CardContent>
+                <CardActions>
+                  <Button size="small">Share</Button>
+                  <Button size="small">Learn More</Button>
+                </CardActions>
+              </Card>
+            </Link>
           </Grid>
         ))}
       </Grid>
